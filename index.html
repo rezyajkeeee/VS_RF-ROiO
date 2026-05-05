@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генератор доклада</title>
+    <title>Генератор доклада для Роты Охраны и Обеспечения</title>
     <style>
         /* Стили остаются без изменений */
         body {
@@ -110,20 +110,16 @@
     <div class="form-group">
         <label for="postName">Название поста:</label>
         <select id="postName">
-            <option value="КПП-1">КПП-1</option>
-            <option value="КПП-2" selected>КПП-2</option>
-            <option value="КПП-3">КПП-3</option>
-            <option value="Дом Правительства">Дом Правительства</option>
-            <option value="Холл ФСО">Холл ФСО</option>
-            <option value="Вечный огонь">Вечный огонь</option>
+            <option value="Выездной пост ОБ-7">Выездной пост ОБ-7</option>
+            <option value="Выездной пост РЛС" selected>Выездной пост РЛС</option>
+            <option value="Выездной пост ВС">Выездной пост ВС</option>
+            <option value="Пост Дежурный по части">Пост Дежурный по части</option>
         </select>
     </div>
     
     <div class="form-group">
         <label for="rank">Звание:</label>
         <select id="rank">
-            <option value="Рядовой">Рядовой</option>
-            <option value="Ефрейтор">Ефрейтор</option>
             <option value="Мл. сержант">Младший сержант</option>
             <option value="Сержант" selected>Сержант</option>
             <option value="Ст. сержант">Старший сержант</option>
@@ -134,10 +130,6 @@
             <option value="Лейтенант">Лейтенант</option>
             <option value="Ст. лейтенант">Старший лейтенант</option>
             <option value="Капитан">Капитан</option>
-            <option value="Майор">Майор</option>
-            <option value="Подполковник">Подполковник</option>
-            <option value="Полковник">Полковник</option>
-            <option value="Генерал-лейтенант">Генерал-лейтенант</option>
           </select>
     </div>
     
@@ -331,8 +323,8 @@
             
             updateReports();
             
-            // Устанавливаем время следующего отчета (текущее время + 15 минут)
-            setNextReportTime(15);
+            // Устанавливаем время следующего отчета (текущее время + 20 минут)
+            setNextReportTime(20);
             
             // Запускаем проверку напоминания
             if (reminderCheckInterval) clearInterval(reminderCheckInterval);
@@ -392,18 +384,22 @@
             const currentTimeFormatted = formatTime(currentTime);
             
             // Создаем отчеты
-            const report1 = `Докладывает ${rank} ${name} | Пост ${postName} | Состав - ${composition} | Состояние стабильное | Заступил на пост, Время ${startTimeFormatted} | Доклад окончен`;
-            const report2 = `Докладывает ${rank} ${name} | Пост ${postName} | Состав - ${composition} | Состояние стабильное | Время на посту ${calculateTimeOnPost()} | Доклад окончен`;
-            const report3 = `Докладывает ${rank} ${name} | Пост ${postName} | Состав - ${composition} | Состояние стабильное | Сдал пост, Время ${currentTimeFormatted} | Доклад окончен`;
+           const report1 = `Докладывает ${rank} ${name} | ${postName} заступил | Состав - ${composition} | Код - 1 | Доклад окончен`;
+            const report2 = `Докладывает ${rank} ${name} | ${postName} | Минуты 20 | Состав - ${composition} | Код - 1 | Доклад окончен`;
+            const report3 = `Докладывает ${rank} ${name} | ${postName} | Минуты 40 | Состав - ${composition} | Код - 1 | Доклад окончен`;
+            const report4 = `Докладывает ${rank} ${name} | ${postName} | Минуты 60 | Состав - ${composition} | Код - 1 | Доклад окончен`;
+            const report5 = `Докладывает ${rank} ${name} | ${postName} сдал | Состав - ${composition} | Код - 1 | Доклад окончен`;
             
             // Очищаем контейнер
             const container = document.getElementById('reportContainer');
             container.innerHTML = '';
             
             // Добавляем блоки с отчетами
-            container.appendChild(createReportBlock(report1, '1. Доклад о заступлении на пост'));
-            container.appendChild(createReportBlock(report2, '2. Текущий доклад'));
-            container.appendChild(createReportBlock(report3, '3. Доклад о сдаче поста'));
+           container.appendChild(createReportBlock(report1, '1. Доклад о заступлении на пост'));
+            container.appendChild(createReportBlock(report2, '2. 20 минут на посту'));
+            container.appendChild(createReportBlock(report3, '3. 40 минут на посту'));
+            container.appendChild(createReportBlock(report4, '4. 60 минут на посту'));
+            container.appendChild(createReportBlock(report5, '5. Доклад о сдаче поста'));
             
             // Показываем индикатор обновления
             const loadingIndicator = document.getElementById('loadingIndicator');
@@ -449,7 +445,7 @@
         
         document.getElementById('reportSubmittedBtn').addEventListener('click', function() {
             if (isPostActive) {
-                setNextReportTime(15);
+                setNextReportTime(20);
             }
         });
         
